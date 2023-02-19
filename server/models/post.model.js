@@ -22,7 +22,8 @@ const postSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        likes: [String]
+        likes: [String],
+        total_comments: Number
     },
     {
         timestamps: true

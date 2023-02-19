@@ -1,4 +1,5 @@
 import Comment from '../models/comment.model.js';
+import Post from '../models/post.model.js';
 
 export const getComments = async (req, res) => {
     try {
@@ -28,7 +29,12 @@ export const addComment = async (req, res) => {
             user_img: profile_pic,  
             comment 
         }
-        let result = await Comment.create(commentObj); 
+        let result = await Comment.create(commentObj);
+        let post =  await Post.findOne({ _id: id });
+        if(post){
+            post.total_comments++; 
+            await Post.findOneAndUpdate({_id: id}, post);
+        }
         res.status(200).json({  
             success: true,
             data: comment

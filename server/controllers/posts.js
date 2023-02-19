@@ -14,7 +14,8 @@ export const addPost = async (req, res) => {
                 user_id: req.user._id,
                 user_img: req.user.profile_pic,
                 name: req.user.name,
-                img: public_id
+                img: public_id,
+                total_comments: 0
             }
             let result = await Post.create(postObj); 
 
@@ -40,8 +41,13 @@ export const addPost = async (req, res) => {
 
 export const getPost = async (req, res) => {
     try {
-        let id = "63f0ef3fca8c5c45c01d91cb";
-        let posts = await Post.find({}).sort({ createdAt: -1});
+        let posts;
+        const { id } = req.params;
+        if(id === 'ALL'){
+            posts = await Post.find({}).sort({ createdAt: -1});
+        }else{
+            posts = await Post.find({ user_id: id}).sort({ createdAt: -1});
+        }
         res.status(200).json({ 
             success: true,
             data: posts
@@ -54,3 +60,4 @@ export const getPost = async (req, res) => {
         })
     }
 }
+ 
