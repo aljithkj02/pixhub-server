@@ -64,7 +64,7 @@ export const updateProfile = async (req, res) => {
                 }, process.env.CLOUD_API_SECRET);
                 if (expectedSignature === signature) {
                     user.cover_pic = public_id;
-                }
+                }  
             }else{
                 const expectedSignature = cloudinary.utils.api_sign_request({ 
                     public_id: public_id, version: version 
@@ -84,29 +84,24 @@ export const updateProfile = async (req, res) => {
             message: 'Updated successful!'
         })
 
-        // if (expectedSignature === req.body.signature) {
-        //     let postObj = {
-        //         desc, 
-        //         user_id: req.user._id,
-        //         user_img: req.user.profile_pic,
-        //         name: req.user.name,
-        //         img: public_id,
-        //         total_comments: 0
-        //     }
-        //     let result = await Post.create(postObj); 
-
-        //     res.status(200).json({ 
-        //         success: true,
-        //         message: 'Posted successful!'
-        //     })
-        // }else{
-        //     res.status(400).json({ 
-        //         success: false,
-        //         message: 'Something went wrong!'
-        //     })
-        // }
     } catch (err) { 
         res.status(200).json({ 
+            success: false,
+            message: err.message
+        })
+    }
+}
+
+export const getAllUsers = async (req, res) => {
+    try {
+        let users = await User.find({}).limit(4); 
+        res.status(200).json({ 
+            success: true,
+            data: users
+        })
+
+    } catch (err) { 
+        res.status(200).json({  
             success: false,
             message: err.message
         })

@@ -61,3 +61,28 @@ export const getPost = async (req, res) => {
     }
 }
  
+export const deletePost = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let post = await Post.findOneAndDelete({ _id: id, user_id: req.user._id });
+        if(post){
+            return res.status(200).json({ 
+                success: true,
+                data: post,
+                message: 'Post deleted successfully!'
+            })
+        }
+
+        res.status(404).json({ 
+            success: false,
+            message: 'Something went wrong!'
+        })
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+}
+ 

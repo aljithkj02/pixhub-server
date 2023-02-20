@@ -20,8 +20,8 @@ export const register = async (req, res) => {
             name,
             email,
             password,
-            cover_pic: 'https://images.pexels.com/photos/3586966/pexels-photo-3586966.jpeg?auto=compress&cs=tinysrgb&w=600',
-            profile_pic: 'https://images.pexels.com/photos/5157169/pexels-photo-5157169.jpeg?auto=compress&cs=tinysrgb&w=600'
+            cover_pic: 'mxlxddtnqran579kc9ei',
+            profile_pic: 'l4tvsoidmnbyeotp22rm'
         }
         let result = await User.create(user);
         const userObj = {
@@ -34,7 +34,8 @@ export const register = async (req, res) => {
             message: 'Registration successful!',
             token,
             id: result._id,
-            name: result.name
+            name: result.name,
+            img: result.profile_pic
         })
     } catch (err) {
         console.log(err.message)
@@ -71,7 +72,8 @@ export const login = async (req, res) => {
             message: 'Login successful!',
             token,
             id: user._id,
-            name: user.name
+            name: user.name,
+            img: user.profile_pic
         })
     } catch (err) {
         console.log(err.message)
