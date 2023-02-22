@@ -106,6 +106,22 @@ export const getAllUsers = async (req, res) => {
             message: err.message
         })
     }
+}          
+
+export const searchUsers = async (req, res) => {
+    try {
+        const query = req.query.q;
+        let users = await User.find({ name: { $regex: query, $options: "$i"}}).limit(10); 
+        res.status(200).json({ 
+            success: true,
+            data: users
+        })
+
+    } catch (err) { 
+        res.status(200).json({  
+            success: false,
+            message: err.message
+        })
+    }
 }
- 
  
