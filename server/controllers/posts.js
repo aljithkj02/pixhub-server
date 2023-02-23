@@ -42,13 +42,13 @@ export const addPost = async (req, res) => {
 export const getPost = async (req, res) => {
     try {
         let posts;
-        const { id } = req.params;
+        const { id, skip } = req.query
         if(id === 'ALL'){
-            posts = await Post.find({}).sort({ createdAt: -1});
+            posts = await Post.find({}).sort({ createdAt: -1}).limit(skip);
         }else{
-            posts = await Post.find({ user_id: id}).sort({ createdAt: -1});
+            posts = await Post.find({ user_id: id}).sort({ createdAt: -1}).limit(skip);
         }
-        res.status(200).json({ 
+        res.status(200).json({  
             success: true,
             data: posts
         })
@@ -62,7 +62,7 @@ export const getPost = async (req, res) => {
 }
  
 export const deletePost = async (req, res) => {
-    try {
+    try { 
         const { id } = req.params;
         let post = await Post.findOneAndDelete({ _id: id, user_id: req.user._id });
         if(post){

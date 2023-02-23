@@ -5,7 +5,7 @@ import { authorize } from '../middleware/authorize.js'
 const router = Router();
 
 router.post('/',authorize, addPost);
-router.get('/:id',authorize, getPost);
+router.get('/',authorize, getPost);
 router.delete('/:id',authorize, deletePost);
 
 
